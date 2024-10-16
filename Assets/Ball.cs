@@ -52,8 +52,17 @@ public class Ball : MonoBehaviour
         transform.localScale = new Vector3(currentLevel.radius, currentLevel.radius, 1);
         gameObject.GetComponent<SpriteRenderer>().color = currentLevel.color;
     }
-
     private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (!other.gameObject.TryGetComponent(out Ball otherBall)) return;
+        
+        if (otherBall.levelIndicator == this.levelIndicator)
+        {
+            UpLevel();
+            Destroy(other.gameObject);
+        }
+    }
+    private void OnCollisionStay2D(Collision2D other)
     {
         if (!other.gameObject.TryGetComponent(out Ball otherBall)) return;
         
