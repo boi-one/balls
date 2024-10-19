@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    struct level
+    public struct level
     {
         public float radius;
         public Color color;
@@ -17,7 +17,7 @@ public class Ball : MonoBehaviour
         }
     }
 
-    private List<level> levels = new List<level>()
+    public static List<level> levels = new List<level>()
     {
         new level(0.5f, Color.red),
         new level(1.0f, Color.green),
@@ -28,35 +28,38 @@ public class Ball : MonoBehaviour
         new level(3.5f, Color.white),
         new level(4.0f, Color.black),
         new level(4.5f, new Color(100, 200, 100)),
-        new level(5.0f, new Color(255, 0, 100))
+        new level(5.0f, new Color(255, 0, 100)),
+        new level(7.0f, new Color(255, 100, 150))
     };
 
-    private level currentLevel;
-    private int levelIndicator = -1;
+    public level currentLevel = levels[0];
+    public int levelIndicator = 0;
+    public bool dropped = false;
+    public Rigidbody2D rb;
 
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
     private void UpLevel()
     {
         if(levelIndicator < levels.Count) levelIndicator++;
         currentLevel = levels[levelIndicator];
     }
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        UpLevel();
-    }
 
-    // Update is called once per frame
-    void Update()
+    public void SetLevelAttributes()
     {
+        currentLevel = levels[levelIndicator];
         transform.localScale = new Vector3(currentLevel.radius, currentLevel.radius, 1);
         gameObject.GetComponent<SpriteRenderer>().color = currentLevel.color;
     }
+
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (!other.gameObject.TryGetComponent(out Ball otherBall)) return;
         
-        if (otherBall.levelIndicator == this.levelIndicator)
+        if (otherBall.levelIndicator == this.levelIndicator)/* &&
+            rb.simulated && otherBall.rb.simulated) //improved by the doctor*/
         {
             UpLevel();
             Destroy(other.gameObject);

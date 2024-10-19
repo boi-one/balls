@@ -1,22 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Controls : MonoBehaviour
 {
     public GameObject ball;
-    public GameObject ballSpawn;
+    public Transform dropCursor;
     public Transform leftWall;
     public Transform rightWall;
-    
-    // Start is called before the first frame update
-    void Start()
+    public GameObject currentBall;
+
+    public static int[] ballQueueLevel = new int[2];
+
+    GameObject CreateBall()
     {
-        
+        GameObject newBall = Instantiate(ball);
+        newBall.GetComponent<Ball>().levelIndicator = ballQueueLevel[0];
+        newBall.GetComponent<Ball>().SetLevelAttributes();
+        newBall.GetComponent<Rigidbody2D>().simulated = false;
+        return newBall;
     }
 
-    // Update is called once per frame
+    void ForwardQueue()
+    {
+        for (int i = 1; i < ballQueueLevel.Length; i++)
+        {
+            if (i < ballQueueLevel.Length)
+            {
+                ballQueueLevel[i - 1] = ballQueueLevel[i];
+            }
+        }
+        ballQueueLevel[ballQueueLevel.Length - 1] = Random.Range(0, 6);
+    }
+
+    void Start()
+    {
+        currentBall = CreateBall();
+    }
+
     void Update()
     {
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -24,12 +43,16 @@ public class Controls : MonoBehaviour
         if (mousePosition.x > leftWall.position.x + leftWall.transform.localScale.x && 
             mousePosition.x < rightWall.position.x - leftWall.transform.localScale.x)
         {
-            ballSpawn.transform.position = new Vector3(mousePosition.x, ballSpawn.transform.position.y);
+            dropCursor.position = new Vector3(mousePosition.x, dropCursor.position.y);
+            if (!currentBall.GetComponent<Ball>().dropped)
+                currentBall.transform.position = dropCursor.position;
         }
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            GameObject ballInstance = Instantiate(ball);
-            ballInstance.transform.position = new Vector3(ballSpawn.transform.position.x, ballSpawn.transform.position.y, ballInstance.transform.position.z);
+            currentBall.GetComponent<Rigidbody2D>().simulated = true;
+            currentBall.GetComponent<Ball>().dropped = true;
+            currentBall = CreateBall();
+            ForwardQueue();
         }
     }
 }
