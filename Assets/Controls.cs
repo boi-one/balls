@@ -6,17 +6,22 @@ public class Controls : MonoBehaviour
     public Transform dropCursor;
     public Transform leftWall;
     public Transform rightWall;
-    public GameObject currentBall;
+    private GameObject currentBall;
+
+    public float cooldown = 1.0f;
+    private float cooldownCurrentTime = 0.0f;
 
     public static int[] ballQueueLevel = new int[2];
 
     GameObject CreateBall()
     {
-        GameObject newBall = Instantiate(ball);
-        newBall.GetComponent<Ball>().levelIndicator = ballQueueLevel[0];
-        newBall.GetComponent<Ball>().SetLevelAttributes();
-        newBall.GetComponent<Rigidbody2D>().simulated = false;
-        return newBall;
+        Ball.allBalls.Add(Instantiate(ball));
+        Ball.allBalls[Ball.allBalls.Count - 1].transform.position = dropCursor.position;
+        GameObject lastBall = Ball.allBalls[Ball.allBalls.Count - 1];
+        lastBall.GetComponent<Ball>().levelIndicator = ballQueueLevel[0];
+        lastBall.GetComponent<Ball>().SetLevelAttributes();
+        lastBall.GetComponent<Rigidbody2D>().simulated = false;
+        return Ball.allBalls[Ball.allBalls.Count - 1];
     }
 
     void ForwardQueue()
@@ -28,7 +33,7 @@ public class Controls : MonoBehaviour
                 ballQueueLevel[i - 1] = ballQueueLevel[i];
             }
         }
-        ballQueueLevel[ballQueueLevel.Length - 1] = Random.Range(0, 6);
+        ballQueueLevel[ballQueueLevel.Length - 1] = Random.Range(0, 5);
     }
 
     void Start()
@@ -40,19 +45,21 @@ public class Controls : MonoBehaviour
     {
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if (mousePosition.x > leftWall.position.x + leftWall.transform.localScale.x && 
+        if (mousePosition.x > leftWall.position.x + leftWall.transform.localScale.x &&
             mousePosition.x < rightWall.position.x - leftWall.transform.localScale.x)
         {
             dropCursor.position = new Vector3(mousePosition.x, dropCursor.position.y);
             if (!currentBall.GetComponent<Ball>().dropped)
                 currentBall.transform.position = dropCursor.position;
         }
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && Time.time > cooldownCurrentTime)
         {
-            currentBall.GetComponent<Rigidbody2D>().simulated = true;
-            currentBall.GetComponent<Ball>().dropped = true;
-            currentBall = CreateBall();
+            cooldownCurrentTime = Time.time + cooldown;
+            GameObject lastBall = Ball.allBalls[Ball.allBalls.Count - 1];
+            lastBall.GetComponent<Rigidbody2D>().simulated = true;
+            lastBall.GetComponent<Ball>().dropped = true;
             ForwardQueue();
+            currentBall = CreateBall();
         }
     }
 }

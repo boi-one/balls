@@ -161,4 +161,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e24ad235ce7f964d80ac6a2b42889d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ballSprites:
+  - {fileID: 21300000, guid: 1ecaeae19ed878e4d9f1d895a9602334, type: 3}
+  - {fileID: 21300000, guid: 507af8e98ba8fd04592e46d993bed80b, type: 3}
+  - {fileID: 21300000, guid: 714b4702414e2f84b9ad2ccc0ca21bdb, type: 3}
+  - {fileID: 21300000, guid: 9d92cde69346e634d9944bc85a28cb68, type: 3}
+  - {fileID: 21300000, guid: b6c391f879e573d458a97b1e38fabe09, type: 3}
+  - {fileID: 21300000, guid: 54bc287c419485d468119bd54fdf1b8b, type: 3}
+  - {fileID: 21300000, guid: 242d96c6c8dca4b45b48b602740a17e7, type: 3}
+  - {fileID: 21300000, guid: 8eedce795da474a439075a18918a83a6, type: 3}
+  - {fileID: 21300000, guid: 2498548e280a5a74a96546833591ad18, type: 3}
+  - {fileID: 21300000, guid: 1e6bc9ae3b737274ab6bb5b4e4b86e72, type: 3}
+  - {fileID: 21300000, guid: 4199076bc4e1a254c993165cb2095250, type: 3}
   levelIndicator: 0
+  dropped: 0
+  rb: {fileID: 0}
