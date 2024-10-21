@@ -1,14 +1,20 @@
+using System;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Controls : MonoBehaviour
 {
     public GameObject ball;
     public Transform dropCursor;
+    [SerializeField] public Queue queue;
+
     public Transform leftWall;
     public Transform rightWall;
-    private GameObject currentBall;
 
     public float cooldown = 1.0f;
+    
+    private GameObject currentBall;
     private float cooldownCurrentTime = 0.0f;
 
     public static int[] ballQueueLevel = new int[2];
@@ -26,6 +32,11 @@ public class Controls : MonoBehaviour
 
     void ForwardQueue()
     {
+        for (int i = 0; i < queue.queueImages.Length; i++)
+        {
+            queue.queueImages[i].GetComponent<UnityEngine.UI.Image>().sprite = ball.GetComponent<Ball>().ballSprites[ballQueueLevel[i]];
+        }
+
         for (int i = 1; i < ballQueueLevel.Length; i++)
         {
             if (i < ballQueueLevel.Length)
@@ -33,7 +44,7 @@ public class Controls : MonoBehaviour
                 ballQueueLevel[i - 1] = ballQueueLevel[i];
             }
         }
-        ballQueueLevel[ballQueueLevel.Length - 1] = Random.Range(0, 5);
+        ballQueueLevel[ballQueueLevel.Length - 1] = UnityEngine.Random.Range(0, 5);
     }
 
     void Start()
