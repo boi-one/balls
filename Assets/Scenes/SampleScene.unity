@@ -583,6 +583,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: def96085015c6c44baf0b512f0f87faa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  countDown: {fileID: 1931196338}
 --- !u!50 &534487496
 Rigidbody2D:
   serializedVersion: 4
@@ -1010,6 +1011,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 290d9ec5250d10b47b36f65b477c1c43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startCountdown: 0
+  time: 1
   countUI: {fileID: 0}
 --- !u!114 &1931196339
 MonoBehaviour:

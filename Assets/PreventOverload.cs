@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class PreventOverload : MonoBehaviour
 {
-    Rigidbody2D rb;
-    float time;
+    private Rigidbody2D rb;
+    private float time;
+    public CountDown countDown;
 
     void Start()
     {
@@ -28,12 +29,16 @@ public class PreventOverload : MonoBehaviour
 
     private void Update()
     {
-        if (time < 1.1f)
+        Debug.Log(time);
+
+        if (time > 1.1f)
         {
-            CountDown.startCountdown = true;
+            countDown.startCountdown = true;
         }
-        else
-            CountDown.startCountdown = false;
+        else if(countDown.time > 0)
+        {
+            countDown.startCountdown = false;
+        }
 
     }
 }

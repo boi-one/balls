@@ -1,32 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CountDown : MonoBehaviour
 {
 
-    public static bool startCountdown = false;
+    public bool startCountdown = false;
 
-    float time = 1;
+    public float time = 1;
     float currentTime = 1;
 
-    [HideInInspector] public TextMeshPro countUI; 
+    [HideInInspector] public TMP_Text countUI; 
     int count = 5;
+
+    private void SetTime()
+    {
+        countUI = GetComponent<TMP_Text>();
+        countUI.text = count.ToString();
+        Debug.Log("balls");
+    }
 
     private void Awake()
     {
-        countUI = GetComponent<TextMeshPro>();
-        countUI.text = count.ToString();
+        SetTime();
     }
 
     void Update()
     {
-        countUI.gameObject.SetActive(false);
-
         if (!startCountdown && count > 0) return;
 
-        countUI.gameObject.SetActive(true);
+        Debug.Log("lol");
 
         if(Time.time > currentTime)
         {
@@ -34,6 +39,11 @@ public class CountDown : MonoBehaviour
             countUI.text = count.ToString();
 
             currentTime = Time.time + time; 
+        }
+
+        if(count == 0)
+        {
+            startCountdown = false;
         }
     }
 }
