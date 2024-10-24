@@ -55,14 +55,11 @@ public class Ball : MonoBehaviour
         currentLevel = levels[levelIndicator];
         transform.localScale = new Vector3(currentLevel.radius, currentLevel.radius, 1);
         gameObject.GetComponent<SpriteRenderer>().sprite = ballSprites[levelIndicator];
-        //gameObject.GetComponent<SpriteRenderer>().color = currentLevel.color;
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (!other.gameObject.TryGetComponent(out Ball otherBall)) return;
-
-        /* && rb.simulated && otherBall.rb.simulated) //improved by the doctor*/
 
         if (otherBall.levelIndicator == this.levelIndicator)
         {

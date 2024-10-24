@@ -49,6 +49,7 @@ public class Controls : MonoBehaviour
 
     void Start()
     {
+        ForwardQueue(); //fixen dat dit synced is bij start
         currentBall = CreateBall();
     }
 

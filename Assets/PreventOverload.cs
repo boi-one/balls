@@ -29,7 +29,7 @@ public class PreventOverload : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(time);
+        //Debug.Log(time);
 
         if (time > 1.1f)
         {

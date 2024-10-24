@@ -13,13 +13,12 @@ public class CountDown : MonoBehaviour
     float currentTime = 1;
 
     [HideInInspector] public TMP_Text countUI; 
-    int count = 5;
+    int count = 6;
 
     private void SetTime()
     {
         countUI = GetComponent<TMP_Text>();
-        countUI.text = count.ToString();
-        Debug.Log("balls");
+        countUI.text = " ";
     }
 
     private void Awake()
@@ -29,9 +28,7 @@ public class CountDown : MonoBehaviour
 
     void Update()
     {
-        if (!startCountdown && count > 0) return;
-
-        Debug.Log("lol");
+        if (!startCountdown || count < 1) return;
 
         if(Time.time > currentTime)
         {
@@ -41,7 +38,7 @@ public class CountDown : MonoBehaviour
             currentTime = Time.time + time; 
         }
 
-        if(count == 0)
+        if(count <= 0)
         {
             startCountdown = false;
         }
