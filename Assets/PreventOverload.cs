@@ -24,13 +24,13 @@ public class PreventOverload : MonoBehaviour
         {
             Debug.DrawRay(transform.position, transform.right * 12, Color.red);
             time = 0;
+            countDown.count = 6;
+            countDown.startCountdown = false;
         }
     }
 
     private void Update()
     {
-        //Debug.Log(time);
-
         if (time > 1.1f)
         {
             countDown.startCountdown = true;

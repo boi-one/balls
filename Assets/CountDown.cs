@@ -6,14 +6,14 @@ using UnityEngine;
 
 public class CountDown : MonoBehaviour
 {
-
+//TODO: zorg ervoor dat de countdown reset als de raycast niks meer raakt
     public bool startCountdown = false;
 
     public float time = 1;
     float currentTime = 1;
 
     [HideInInspector] public TMP_Text countUI; 
-    int count = 6;
+    public int count = 6;
 
     private void SetTime()
     {
@@ -28,6 +28,11 @@ public class CountDown : MonoBehaviour
 
     void Update()
     {
+        if(!startCountdown)
+        {
+            countUI.text = " ";
+        }
+
         if (!startCountdown || count < 1) return;
 
         if(Time.time > currentTime)
